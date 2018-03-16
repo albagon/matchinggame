@@ -2,6 +2,16 @@
  * Create a list that holds all of your cards
  */
 
+const newCard = document.createElement('li');
+newCard.classList.add("card");
+const newIcon = document.createElement('i');
+newIcon.classList.add("fa", "fa-diamond");  // I could make a list of all the icon class names
+newCard.appendChild(newIcon);
+console.log(newCard);
+
+var cards = [newCard]; // This is the list of cards
+console.log(cards);
+
 
 /*
  * Display the cards on the page
