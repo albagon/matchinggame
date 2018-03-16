@@ -12,6 +12,12 @@ function createListOfCards(array) {
       while (i <= 2){
         const newCard = document.createElement('li');
         newCard.classList.add("card");
+
+        //Here is where I add the event listener to each card
+        newCard.addEventListener('click', function (evt) {
+            evt.target.classList.add('open', 'show');
+
+        });
         const newIcon = document.createElement('i');
         newIcon.classList.add("fa", item);
         newCard.appendChild(newIcon);
@@ -44,6 +50,8 @@ function shuffle(array) {
     return array;
 }
 
+
+
 function createDeck() {
     const listOfCards = shuffle(createListOfCards(iconClasses));
     const fragment = document.createDocumentFragment();
@@ -59,6 +67,8 @@ function createDeck() {
 }
 
 createDeck();
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
