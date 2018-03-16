@@ -2,24 +2,28 @@
  * Create a list that holds all of your cards
  */
 var iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
-var cards = [];
-
-iconClasses.forEach(function(item, index, array) {
-  let i = 1;
-  while (i <= 2){
-    const newCard = document.createElement('li');
-    newCard.classList.add("card");
-    const newIcon = document.createElement('i');
-    newIcon.classList.add("fa", item);
-    newCard.appendChild(newIcon);
-    cards.push(newCard);
-    i++;
-  }
-});
+// const fragment = document.createDocumentFragment(); TODO use this line when updating the card elements inside the ul.deck
 
 
-console.log(cards);
+function createListOfCards(array) {
+    var cards = [];
 
+    iconClasses.forEach(function(item, index, array) {
+      let i = 1;
+      while (i <= 2){
+        const newCard = document.createElement('li');
+        newCard.classList.add("card");
+        const newIcon = document.createElement('i');
+        newIcon.classList.add("fa", item);
+        newCard.appendChild(newIcon);
+        cards.push(newCard);
+        i++;
+      }
+    });
+    return cards;
+}
+
+console.log(createListOfCards(iconClasses)); // TODO erase this line after testing is complete
 
 /*
  * Display the cards on the page
