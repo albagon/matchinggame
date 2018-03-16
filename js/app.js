@@ -7,7 +7,7 @@ var iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa
 function createListOfCards(array) {
     var cards = [];
 
-    iconClasses.forEach(function(item, index, array) {
+    array.forEach(function(item, index, array) {
       let i = 1;
       while (i <= 2){
         const newCard = document.createElement('li');
