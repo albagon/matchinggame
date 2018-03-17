@@ -2,7 +2,7 @@
  * Create a list that holds all of your cards
  */
 var iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
-
+var openCards = [];
 
 function createListOfCards(array) {
     var cards = [];
@@ -14,10 +14,7 @@ function createListOfCards(array) {
         newCard.classList.add("card");
 
         //Here is where I add the event listener to each card
-        newCard.addEventListener('click', function (evt) {
-            evt.target.classList.add('open', 'show');
-
-        });
+        newCard.addEventListener("click", playGame);
         const newIcon = document.createElement('i');
         newIcon.classList.add("fa", item);
         newCard.appendChild(newIcon);
@@ -66,8 +63,20 @@ function createDeck() {
     deck.appendChild(fragment);
 }
 
-createDeck();
+function playGame (e) {
+    e.target.classList.add('open', 'show');
+    openCards.push(e.target);
+    console.log(openCards);   //TODO erase this line after testing is complete
 
+
+}
+
+function resetGame () {
+  openCards = [];
+  createDeck();
+}
+
+resetGame();
 
 
 /*
