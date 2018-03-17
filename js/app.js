@@ -12,12 +12,11 @@ function createListOfCards(array) {
       while (i <= 2){
         const newCard = document.createElement('li');
         newCard.classList.add("card");
-
-        //Here is where I add the event listener to each card
-        newCard.addEventListener("click", playGame);
         const newIcon = document.createElement('i');
         newIcon.classList.add("fa", item);
         newCard.appendChild(newIcon);
+        //Here is where I add the event listener to each card
+        newCard.addEventListener("click", playGame);
         cards.push(newCard);
         i++;
       }
@@ -66,7 +65,18 @@ function createDeck() {
 function playGame (e) {
     e.target.classList.add('open', 'show');
     openCards.push(e.target);
-    console.log(openCards);   //TODO erase this line after testing is complete
+    console.log("list of open cards " + openCards);   //TODO erase this line after testing is complete
+
+
+    if (openCards.length % 2 === 0) {
+        if (openCards[openCards.length-2].firstChild.classList.contains(openCards[openCards.length-1].firstChild.classList.item(1))) {
+            console.log("the player has a match");    // TODO erase this line after testing is complete
+        } else {
+            //TODO erase next line after testing is complete
+            console.log("no match, call closeCards " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
+        }
+
+    }
 
 
 }
