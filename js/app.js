@@ -74,11 +74,19 @@ function playGame (e) {
         } else {
             //TODO erase next line after testing is complete
             console.log("no match, call closeCards " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
+            noMatch();
             //closeCards();
         }
 
     }
 
+
+}
+
+function noMatch () {
+  openCards[openCards.length-1].classList.add('no-match');
+  openCards[openCards.length-2].classList.add('no-match');
+  console.log(openCards[openCards.length-2].classList);
 
 }
 
