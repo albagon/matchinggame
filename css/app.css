@@ -68,6 +68,10 @@ h1 {
     transition-timing-function: ease-in-out;
 }
 
+.rotate-y-minus-180 {
+    transform: rotateY(-180deg);
+}
+
 .deck .card.open {
     transform: rotateY(3.142rad);
     background: #02b3e4;

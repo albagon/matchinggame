@@ -13,7 +13,7 @@ function createListOfCards(array) {
         const newCard = document.createElement('li');
         newCard.classList.add("card");
         const newIcon = document.createElement('i');
-        newIcon.classList.add("fa", item);
+        newIcon.classList.add("fa", item, "rotate-y-minus-180");
         newCard.appendChild(newIcon);
         //Here is where I add the event listener to each card
         newCard.addEventListener("click", playGame);
@@ -74,7 +74,7 @@ function playGame (e) {
         } else {
             //TODO erase next line after testing is complete
             console.log("no match, call closeCards " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
-            closeCards();
+            //closeCards();
         }
 
     }
