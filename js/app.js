@@ -75,7 +75,8 @@ function playGame (e) {
             //TODO erase next line after testing is complete
             console.log("no match, call closeCards " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
             noMatch();
-            //closeCards();
+            // removeCard();
+            // removeCard();
         }
 
     }
@@ -86,14 +87,27 @@ function playGame (e) {
 function noMatch () {
   openCards[openCards.length-1].classList.add('no-match');
   openCards[openCards.length-2].classList.add('no-match');
-  console.log(openCards[openCards.length-2].classList);
+  console.log("class list " + openCards[openCards.length-2].classList);
+  //TODO I am calling closeCards 2 times and repeating unnecessary calls.
+  //I should make a closeCard(card-to-remove) function, not closeCards
+  openCards[openCards.length-1].addEventListener("transitionend", closeCards, false);
+  openCards[openCards.length-2].addEventListener("transitionend", closeCards, false);
 
 }
 
 function closeCards () {
-    openCards[openCards.length-1].classList.remove('open', 'show');
-    openCards[openCards.length-2].classList.remove('open', 'show');
-    openCards.pop();
+    console.log('inside closeCards');
+    openCards[openCards.length-1].removeEventListener("transitionend", closeCards, false);
+    openCards[openCards.length-2].removeEventListener("transitionend", closeCards, false);
+    openCards[openCards.length-1].classList.remove('open', 'show', 'no-match');
+    openCards[openCards.length-2].classList.remove('open', 'show', 'no-match');
+    //openCards[openCards.length-1].addEventListener("transitionend", removeCard, false);
+    //openCards[openCards.length-2].addEventListener("transitionend", removeCard, false);
+}
+
+function removeCard () {
+    openCards[openCards.length-1].removeEventListener("transitionend", removeCard, false);
+    openCards[openCards.length-2].removeEventListener("transitionend", removeCard, false);
     openCards.pop();
 
 }
