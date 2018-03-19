@@ -47,7 +47,6 @@ function shuffle(array) {
 }
 
 
-
 function createDeck() {
     const listOfCards = shuffle(createListOfCards(iconClasses));
     const fragment = document.createDocumentFragment();
@@ -73,48 +72,50 @@ function playGame (e) {
             console.log("the player has a match");    // TODO erase this line after testing is complete
         } else {
             //TODO erase next line after testing is complete
-            console.log("no match, call closeCards " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
-            noMatch();
-            // removeCard();
-            // removeCard();
+            console.log("no match, call closeCard " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
+
+            var delayInMilliseconds = 1000; //1 second
+            setTimeout(function() {
+                //code to be executed after 1 second
+                noMatch(openCards[openCards.length-1]);
+                noMatch(openCards[openCards.length-2]);
+            }, delayInMilliseconds);
+
         }
 
     }
 
+}
+
+function noMatch (card) {
+    card.classList.add('no-match');
+    var delayInMilliseconds = 1000; //1 second
+    setTimeout(function() {
+        //code to be executed after 1 second
+        closeCard(card);
+    }, delayInMilliseconds);
 
 }
 
-function noMatch () {
-  openCards[openCards.length-1].classList.add('no-match');
-  openCards[openCards.length-2].classList.add('no-match');
-  console.log("class list " + openCards[openCards.length-2].classList);
-  //TODO I am calling closeCards 2 times and repeating unnecessary calls.
-  //I should make a closeCard(card-to-remove) function, not closeCards
-  openCards[openCards.length-1].addEventListener("transitionend", closeCards, false);
-  openCards[openCards.length-2].addEventListener("transitionend", closeCards, false);
-
+function closeCard (card) {
+    console.log('inside closeCard');
+    card.classList.remove('open', 'show', 'no-match');
+    removeCard(card);
 }
 
-function closeCards () {
-    console.log('inside closeCards');
-    openCards[openCards.length-1].removeEventListener("transitionend", closeCards, false);
-    openCards[openCards.length-2].removeEventListener("transitionend", closeCards, false);
-    openCards[openCards.length-1].classList.remove('open', 'show', 'no-match');
-    openCards[openCards.length-2].classList.remove('open', 'show', 'no-match');
-    //openCards[openCards.length-1].addEventListener("transitionend", removeCard, false);
-    //openCards[openCards.length-2].addEventListener("transitionend", removeCard, false);
-}
+function removeCard (card) {
+    console.log('inside removeCard');
 
-function removeCard () {
-    openCards[openCards.length-1].removeEventListener("transitionend", removeCard, false);
-    openCards[openCards.length-2].removeEventListener("transitionend", removeCard, false);
-    openCards.pop();
+    var pos = openCards.indexOf(card);
+    console.log("the position is " + pos);
+    openCards.splice(pos, 1);
+    console.log("the openCards length is " + openCards.length);
 
 }
 
 function resetGame () {
-  openCards = [];
-  createDeck();
+    openCards = [];
+    createDeck();
 }
 
 resetGame();
