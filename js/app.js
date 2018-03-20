@@ -63,6 +63,7 @@ function createDeck() {
 }
 
 function playGame (e) {
+    lockCard(e.target);
     e.target.classList.add('open', 'show');
     openCards.push(e.target);
     console.log("list of open cards " + openCards);   //TODO erase this line after testing is complete
@@ -118,12 +119,19 @@ function removeCard (card) {
     console.log("the position is " + pos);
     openCards.splice(pos, 1);
     console.log("the openCards length is " + openCards.length);
+    unlockCard(card);
 
 }
 
 function lockCard (card) {
     console.log('inside lockCard');
     card.removeEventListener("click", playGame);
+
+}
+
+function unlockCard (card) {
+    console.log('inside unlockCard');
+    card.addEventListener("click", playGame);
 
 }
 
