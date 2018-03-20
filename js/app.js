@@ -3,6 +3,7 @@
  */
 var iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
 var openCards = [];
+let counter = 0;
 
 function createListOfCards(array) {
     var cards = [];
@@ -72,6 +73,8 @@ function playGame (e) {
             console.log("the player has a match");    // TODO erase this line after testing is complete
             lockCard(openCards[openCards.length-1]);
             lockCard(openCards[openCards.length-2]);
+            updateMoves();
+            console.log("moves equals " + counter);
 
         } else {
             //TODO erase next line after testing is complete
@@ -83,6 +86,8 @@ function playGame (e) {
                 noMatch(openCards[openCards.length-1]);
                 noMatch(openCards[openCards.length-2]);
             }, delayInMilliseconds);
+            updateMoves();
+            console.log("moves equals " + counter);
 
         }
 
@@ -122,8 +127,17 @@ function lockCard (card) {
 
 }
 
+function updateMoves () {
+    counter++;
+    const moves = document.querySelector(".moves");
+    moves.textContent = counter;
+}
+
 function resetGame () {
     openCards = [];
+    counter = 0;
+    const moves = document.querySelector(".moves");
+    moves.textContent = counter;
     createDeck();
 }
 
