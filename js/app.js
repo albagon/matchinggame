@@ -70,13 +70,16 @@ function playGame (e) {
     if (openCards.length % 2 === 0) {
         if (openCards[openCards.length-2].firstChild.classList.contains(openCards[openCards.length-1].firstChild.classList.item(1))) {
             console.log("the player has a match");    // TODO erase this line after testing is complete
+            lockCard(openCards[openCards.length-1]);
+            lockCard(openCards[openCards.length-2]);
+
         } else {
             //TODO erase next line after testing is complete
             console.log("no match, call closeCard " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
 
-            var delayInMilliseconds = 1000; //1 second
+            var delayInMilliseconds = 500; //half second
             setTimeout(function() {
-                //code to be executed after 1 second
+                //code to be executed after half second
                 noMatch(openCards[openCards.length-1]);
                 noMatch(openCards[openCards.length-2]);
             }, delayInMilliseconds);
@@ -89,9 +92,9 @@ function playGame (e) {
 
 function noMatch (card) {
     card.classList.add('no-match');
-    var delayInMilliseconds = 1000; //1 second
+    var delayInMilliseconds = 500; //half second
     setTimeout(function() {
-        //code to be executed after 1 second
+        //code to be executed after half second
         closeCard(card);
     }, delayInMilliseconds);
 
@@ -110,6 +113,12 @@ function removeCard (card) {
     console.log("the position is " + pos);
     openCards.splice(pos, 1);
     console.log("the openCards length is " + openCards.length);
+
+}
+
+function lockCard (card) {
+    console.log('inside lockCard');
+    card.removeEventListener("click", playGame);
 
 }
 
