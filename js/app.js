@@ -141,15 +141,17 @@ function updateMoves () {
     moves.textContent = counter;
 }
 
-function resetGame () {
+function setGame () {
     openCards = [];
     counter = 0;
     const moves = document.querySelector(".moves");
     moves.textContent = counter;
+    const reset = document.querySelector(".restart");
+    reset.addEventListener('click', setGame);
     createDeck();
 }
 
-resetGame();
+setGame();
 
 
 /*
