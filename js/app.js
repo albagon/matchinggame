@@ -4,6 +4,10 @@
 var iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
 var openCards = [];
 let counter = 0;
+const timer = document.querySelector('.timer');
+let timerValue = 0;
+// Update timer every second
+let timerInterval = window.setInterval(updateTimer, 1000);
 
 function createListOfCards(array) {
     var cards = [];
@@ -68,7 +72,6 @@ function playGame (e) {
     openCards.push(e.target);
     console.log("list of open cards " + openCards);   //TODO erase this line after testing is complete
 
-
     if (openCards.length % 2 === 0) {
         if (openCards[openCards.length-2].firstChild.classList.contains(openCards[openCards.length-1].firstChild.classList.item(1))) {
             console.log("the player has a match");    // TODO erase this line after testing is complete
@@ -76,7 +79,9 @@ function playGame (e) {
             lockCard(openCards[openCards.length-2]);
             updateMoves();
             console.log("moves equals " + counter);
-
+            if (openCards.length === 16) {
+                stopGame();
+            }
         } else {
             //TODO erase next line after testing is complete
             console.log("no match, call closeCard " + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
@@ -144,11 +149,26 @@ function updateMoves () {
 function setGame () {
     openCards = [];
     counter = 0;
+    timerValue = 0;
+
     const moves = document.querySelector(".moves");
     moves.textContent = counter;
+
     const reset = document.querySelector(".restart");
     reset.addEventListener('click', setGame);
+
     createDeck();
+
+}
+
+function stopGame () {
+    window.clearInterval(timerInterval);
+    console.log('the timer ends with value ' + timerValue);
+}
+
+function updateTimer () {
+    timerValue++;
+    timer.textContent = timerValue;
 }
 
 setGame();
