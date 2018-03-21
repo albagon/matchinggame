@@ -3,11 +3,28 @@
 */
 const iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
 let openCards = [];
+
+// The number of moves
 let counter = 0;
+
+// Get the timer
 const timer = document.querySelector('.timer');
+
+// The starting value of the timer
 let timerValue = 0;
+
 // Update timer every second
 let timerInterval = window.setInterval(updateTimer, 1000);
+
+// Get the modal
+const modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+const btn = document.getElementById('myBtn');
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName('close')[0];
+
 
 function createListOfCards(array) {
     let cards = [];
@@ -75,12 +92,13 @@ function playGame(e) {
     if (openCards.length % 2 === 0) {
         if (openCards[openCards.length-2].firstChild.classList.contains(openCards[openCards.length-1].firstChild.classList.item(1))) {
             console.log('the player has a match');    // TODO: erase this line after testing is complete
-            lockCard(openCards[openCards.length-1]);
-            lockCard(openCards[openCards.length-2]);
+            //lockCard(openCards[openCards.length-1]);
+            //lockCard(openCards[openCards.length-2]);
             updateMoves();
             console.log('moves equals ' + counter);
             if (openCards.length === 16) {
-                stopGame();
+                stopTimer();
+                popUpModal();
             }
         } else {
             // TODO: erase next line after testing is complete
@@ -159,9 +177,12 @@ function setGame() {
 
     createDeck();
 
+    //TODO: the timer functionality should be here
+    //startTimer();
+
 }
 
-function stopGame() {
+function stopTimer() {
     window.clearInterval(timerInterval);
     console.log('the timer ends with value ' + timerValue);
 }
@@ -170,6 +191,49 @@ function updateTimer() {
     timerValue++;
     timer.textContent = timerValue;
 }
+
+
+/**
+* The following code is for the modal
+*/
+
+// When the user wins, open the modal
+// TODO: I could put the modal declaration inside the popUpModal function
+function popUpModal() {
+    // Open the modal
+    modal.style.display = 'block';
+
+    // Get the button that closes the modal
+    const modalButton = document.getElementById('modalButton');
+    console.log('the BUTTON is ' + modalButton);
+
+    modalButton.addEventListener('click', function(){
+      modal.style.display = 'none';
+      setGame();
+    }, false);
+}
+
+// TODO: The following onclick functionality should be erased after testing
+// btn.onclick = function() {
+//     modal.style.display = 'block';
+// }
+btn.onclick = popUpModal;
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = 'none';
+}
+
+// When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = 'none';
+//     }
+// }
+
+/**
+* End of code for the modal
+*/
 
 setGame();
 
