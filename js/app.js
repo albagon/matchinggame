@@ -5,16 +5,16 @@ const iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', '
 let openCards = [];
 
 // The number of moves
-let counter = 0;
+let moveCounter = 0;
 
-// Get the timer
-const timer = document.querySelector('.timer');
+// The timer status
+let timerGoing = false;
 
 // The starting value of the timer
 let timerValue = 0;
 
-// Update timer every second
-let timerInterval = window.setInterval(updateTimer, 1000);
+// The timer interval
+let timerInterval = null;
 
 // Get the modal
 const modal = document.getElementById('myModal');
@@ -84,34 +84,44 @@ function createDeck() {
 }
 
 function playGame(e) {
+    //The timer starts
+    if (timerGoing === false) {
+
+        startTimer();
+    }
+
+    //Lock card
     lockCard(e.target);
+    //Open card
     e.target.classList.add('open', 'show');
+    //Add open card to openCards array
     openCards.push(e.target);
+    //Log to the console the list of open cards
     console.log('list of open cards ' + openCards);   // TODO: erase this line after testing is complete
 
     if (openCards.length % 2 === 0) {
         if (openCards[openCards.length-2].firstChild.classList.contains(openCards[openCards.length-1].firstChild.classList.item(1))) {
             console.log('the player has a match');    // TODO: erase this line after testing is complete
-            //lockCard(openCards[openCards.length-1]);
-            //lockCard(openCards[openCards.length-2]);
             updateMoves();
-            console.log('moves equals ' + counter);
+            console.log('moves equals ' + moveCounter);
             if (openCards.length === 16) {
-                stopTimer();
+                stopTimer(timerInterval);
                 popUpModal();
             }
         } else {
             // TODO: erase next line after testing is complete
             console.log('no match, call closeCard ' + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
 
-            const delayInMilliseconds = 500; // half second
+            // Wait for the transition to finish
+            const delayInMilliseconds = 400; // 400 milliseconds
             setTimeout(function() {
-                // code to be executed after half second
+                // code to be executed after 400 milliseconds
+                // TODO: make noMatch and all the functions it calls receive 2 open cards.
                 noMatch(openCards[openCards.length-1]);
                 noMatch(openCards[openCards.length-2]);
             }, delayInMilliseconds);
             updateMoves();
-            console.log('moves equals ' + counter);
+            console.log('moves equals ' + moveCounter);
 
         }
 
@@ -121,9 +131,11 @@ function playGame(e) {
 
 function noMatch(card) {
     card.classList.add('no-match');
-    const delayInMilliseconds = 500; // half second
+
+    // Wait for the transition to finish
+    const delayInMilliseconds = 500; // 500 milliseconds
     setTimeout(function() {
-        // code to be executed after half second
+        // code to be executed after 500 milliseconds
         closeCard(card);
     }, delayInMilliseconds);
 
@@ -159,37 +171,67 @@ function unlockCard(card) {
 }
 
 function updateMoves() {
-    counter++;
+    moveCounter++;
     const moves = document.querySelector('.moves');
-    moves.textContent = counter;
+    moves.textContent = moveCounter;
 }
+
+/**
+* This is the function that makes everything start
+*/
 
 function setGame() {
     openCards = [];
-    counter = 0;
+    moveCounter = 0;
+    timerInterval = null;
     timerValue = 0;
+    timerGoing = false;
+
+    // Get the timer span object and set it to display 0
+    const timer = document.querySelector('.timer');
+    timer.textContent = timerValue;
 
     const moves = document.querySelector('.moves');
-    moves.textContent = counter;
+    moves.textContent = moveCounter;
 
     const reset = document.querySelector('.restart');
-    reset.addEventListener('click', setGame);
+    reset.addEventListener('click', restartGame);
 
     createDeck();
 
-    //TODO: the timer functionality should be here
-    //startTimer();
-
 }
 
-function stopTimer() {
-    window.clearInterval(timerInterval);
-    console.log('the timer ends with value ' + timerValue);
+function restartGame() {
+    stopTimer(timerInterval);
+    setGame();
 }
 
-function updateTimer() {
+function startTimer() {
+    timerGoing = true;
+    // Get the timer span object
+    const timer = document.querySelector('.timer');
+
+    // Update timer every second
+    let timerInt = window.setInterval(function() {
+        updateTimer(timer)
+    }, 1000);
+
+    timerInterval = timerInt;
+
+    return [timer, timerInt];
+}
+
+//This function receives an interval as parameter
+function stopTimer(tmr) {
+    window.clearInterval(tmr);
+    timerGoing = false;
+    console.log('the timer ends');
+}
+
+//This function receives a DOM object that updates with the new value of timerValue
+function updateTimer(tmr) {
     timerValue++;
-    timer.textContent = timerValue;
+    tmr.textContent = timerValue;
 }
 
 
