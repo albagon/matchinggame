@@ -110,15 +110,13 @@ function playGame(e) {
             }
         } else {
             // TODO: erase next line after testing is complete
-            console.log('no match, call closeCard ' + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
+            console.log('no match, call noMatch ' + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
 
             // Wait for the transition to finish
             const delayInMilliseconds = 400; // 400 milliseconds
             setTimeout(function() {
                 // code to be executed after 400 milliseconds
-                // TODO: make noMatch and all the functions it calls receive 2 open cards.
-                noMatch(openCards[openCards.length-1]);
-                noMatch(openCards[openCards.length-2]);
+                noMatch(openCards[openCards.length-1], openCards[openCards.length-2]);
             }, delayInMilliseconds);
             updateMoves();
             console.log('moves equals ' + moveCounter);
@@ -129,34 +127,50 @@ function playGame(e) {
 
 }
 
-function noMatch(card) {
-    card.classList.add('no-match');
+/**
+* No match functions
+*/
+
+function noMatch(card1, card2) {
+    card1.classList.add('no-match');
+    card2.classList.add('no-match');
 
     // Wait for the transition to finish
     const delayInMilliseconds = 500; // 500 milliseconds
     setTimeout(function() {
         // code to be executed after 500 milliseconds
-        closeCard(card);
+        closeCards(card1, card2);
     }, delayInMilliseconds);
 
 }
 
-function closeCard(card) {
-    console.log('inside closeCard');
-    card.classList.remove('open', 'show', 'no-match');
-    removeCard(card);
+function closeCards(card1, card2) {
+    console.log('inside closeCards');
+    card1.classList.remove('open', 'show', 'no-match');
+    card2.classList.remove('open', 'show', 'no-match');
+    removeCards(card1, card2);
 }
 
-function removeCard(card) {
-    console.log('inside removeCard');
+function removeCards(card1, card2) {
+    console.log('inside removeCards');
 
-    const pos = openCards.indexOf(card);
-    console.log('the position is ' + pos);
-    openCards.splice(pos, 1);
+    const pos1 = openCards.indexOf(card1);
+    console.log('the position1 is ' + pos1);
+    openCards.splice(pos1, 1);
+
+    const pos2 = openCards.indexOf(card2);
+    console.log('the position2 is ' + pos2);
+    openCards.splice(pos2, 1);
+
     console.log('the openCards length is ' + openCards.length);
-    unlockCard(card);
+    unlockCard(card1);
+    unlockCard(card2);
 
 }
+
+/**
+* End of no match functions
+*/
 
 function lockCard(card) {
     console.log('inside lockCard');
