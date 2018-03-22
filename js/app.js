@@ -10,16 +10,14 @@ let moveCounter = 0;
 // The timer status
 let timerGoing = false;
 
-// The starting value of the timer
+// The value of the timer
 let timerValue = 0;
 
 // The timer interval
 let timerInterval = null;
 
-// Get the modal
-const modal = document.getElementById('myModal');
-
 // Get the button that opens the modal
+// TODO: Remove this button once testing is complete
 const btn = document.getElementById('myBtn');
 
 
@@ -247,19 +245,26 @@ function updateTimer(tmr) {
 
 
 /**
-* The following code is for the modal
+* The congratulations modal
 */
 
-// When the user wins, open the modal
-// TODO: I could put the modal declaration inside the popUpModal function
 function popUpModal() {
+    // Get the modal
+    const modal = document.getElementById('myModal');
+
+    // Update the game statistics in the modal
+    document.getElementById('modalMoves').textContent = moveCounter;
+    // modal.getElementById('modalStars').textContent = stars;
+    document.getElementById('modalTimer').textContent = timerValue;
+
     // Open the modal
     modal.style.display = 'block';
 
     // Get the button that closes the modal
     const modalButton = document.getElementById('modalButton');
     console.log('the BUTTON is ' + modalButton);
-
+    
+    // Add event listener to play again button
     modalButton.addEventListener('click', function(){
       modal.style.display = 'none';
       setGame();
