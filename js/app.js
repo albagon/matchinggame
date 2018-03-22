@@ -19,10 +19,6 @@ let timerValue = 0;
 // The timer interval
 let timerInterval = null;
 
-// Get the button that opens the modal
-// TODO: Remove this button once testing is complete
-const btn = document.getElementById('myBtn');
-
 
 function createListOfCards(array) {
     let cards = [];
@@ -321,12 +317,6 @@ function popUpModal() {
       setGame();
     }, false);
 }
-
-// TODO: The following onclick functionality should be erased after testing
-// btn.onclick = function() {
-//     modal.style.display = 'block';
-// }
-btn.onclick = popUpModal;
 
 /**
 * End of code for the modal
