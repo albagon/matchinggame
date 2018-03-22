@@ -7,6 +7,9 @@ let openCards = [];
 // The number of moves
 let moveCounter = 0;
 
+// The number of stars
+let starCounter = 3;
+
 // The timer status
 let timerGoing = false;
 
@@ -99,6 +102,10 @@ function playGame(e) {
             console.log('the player has a match');    // TODO: erase this line after testing is complete
             updateMoves();
             console.log('moves equals ' + moveCounter);
+
+            // Check if the player loses a star
+            manageStars();
+
             if (openCards.length === 16) {
                 stopTimer(timerInterval);
                 popUpModal();
@@ -116,6 +123,8 @@ function playGame(e) {
             updateMoves();
             console.log('moves equals ' + moveCounter);
 
+            // Check if the player loses a star
+            manageStars();
         }
 
     }
@@ -185,6 +194,38 @@ function updateMoves() {
     moves.textContent = moveCounter;
 }
 
+function manageStars() {
+    switch (moveCounter) {
+        case 11:
+            console.log('moveCounter is 11, lose first star');
+            eraseStar();
+            break;
+        case 16:
+            console.log('moveCounter is 16, lose second star');
+            eraseStar();
+            break;
+        case 21:
+            console.log('moveCounter is 21, lose third star');
+            eraseStar();
+            break;
+        default:
+            console.log('default');
+    }
+}
+
+function eraseStar() {
+    // Get start to be erased
+    const star = document.getElementById('star'+starCounter);
+
+    // Erase star from score panel
+    star.classList.replace('fa-star', 'fa-star-o');
+
+    // Lose a star in the counter
+    starCounter--;
+    console.log('The STAR COUNTER is ' + starCounter);
+
+}
+
 /**
 * This is the function that makes everything start
 */
@@ -195,6 +236,7 @@ function setGame() {
     timerInterval = null;
     timerValue = 0;
     timerGoing = false;
+    starCounter = 3;
 
     // Get the timer span object and set it to display 0
     const timer = document.querySelector('.timer');
@@ -202,6 +244,11 @@ function setGame() {
 
     const moves = document.querySelector('.moves');
     moves.textContent = moveCounter;
+
+    const starsIds = ['star1', 'star2', 'star3'];
+    starsIds.forEach(function(id) {
+        document.getElementById(id).classList.replace('fa-star-o', 'fa-star');
+    });
 
     const reset = document.querySelector('.restart');
     reset.addEventListener('click', restartGame);
@@ -230,14 +277,18 @@ function startTimer() {
     return [timer, timerInt];
 }
 
-//This function receives an interval as parameter
+// This function receives an interval as parameter
 function stopTimer(tmr) {
     window.clearInterval(tmr);
     timerGoing = false;
     console.log('the timer ends');
 }
 
-//This function receives a DOM object that updates with the new value of timerValue
+/**
+* This function receives an object reference to a <span> element
+* that updates with the new value of timerValue
+*/
+
 function updateTimer(tmr) {
     timerValue++;
     tmr.textContent = timerValue;
@@ -254,7 +305,7 @@ function popUpModal() {
 
     // Update the game statistics in the modal
     document.getElementById('modalMoves').textContent = moveCounter;
-    // modal.getElementById('modalStars').textContent = stars;
+    document.getElementById('modalStars').textContent = starCounter;
     document.getElementById('modalTimer').textContent = timerValue;
 
     // Open the modal
@@ -263,7 +314,7 @@ function popUpModal() {
     // Get the button that closes the modal
     const modalButton = document.getElementById('modalButton');
     console.log('the BUTTON is ' + modalButton);
-    
+
     // Add event listener to play again button
     modalButton.addEventListener('click', function(){
       modal.style.display = 'none';
