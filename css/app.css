@@ -37,10 +37,11 @@ h1 {
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+    max-width: 660px;
+    width: 90%;
+    height: 680px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
+    padding: 3.7%;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
     display: flex;
@@ -57,6 +58,7 @@ h1 {
     font-size: 0;
     color: #fff;
     border-radius: 8px;
+    margin: 5px;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -102,7 +104,9 @@ h1 {
 .score-panel {
     text-align: left;
     width: 345px;
+    max-width: 90%;
     margin-bottom: 10px;
+    padding: 0 5px;
 }
 
 .score-panel .stars {
@@ -192,4 +196,40 @@ h1 {
     color: #fff;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Breakpoints */
+
+@media screen and (max-width: 414px) {
+  .deck {
+    height: 450px;
+  }
+
+  .deck .card {
+    height: 60px;
+    width: 60px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+
+  .score-panel {
+    margin-bottom: 8px;
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 653px) and (min-width: 415px) {
+  .deck .card {
+    height: 90px;
+    width: 90px;
+  }
+}
+
+@media screen and (min-width: 931px) {
+  .deck {
+      padding: 32px;
+  }
 }
