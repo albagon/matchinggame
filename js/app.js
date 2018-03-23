@@ -1,6 +1,16 @@
 /**
-* Create a list that holds all of your cards
+* OVERALL FUNCTIONALITY OF THE GAME
+* Create a list that holds all of your cards.
+* Set up the event listener for a card. If a card is clicked:
+*  - display the card's symbol (put this functionality in another function that you call from this one)
+*  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+*  - if the list already has another card, check to see if the two cards match
+*    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
+
 const iconClasses = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
 let openCards = [];
 
@@ -19,6 +29,11 @@ let timerValue = 0;
 // The timer interval
 let timerInterval = null;
 
+/**
+* Set up the game
+*/
+
+setGame();
 
 function createListOfCards(array) {
     let cards = [];
@@ -37,6 +52,7 @@ function createListOfCards(array) {
             i++;
         }
     });
+
     return cards;
 }
 
@@ -78,25 +94,27 @@ function createDeck() {
 }
 
 function playGame(e) {
-    //The timer starts
+    // The timer starts
     if (timerGoing === false) {
-
         startTimer();
     }
 
-    //Lock card
+    // Lock card
     lockCard(e.target);
-    //Open card
+    // Open card
     e.target.classList.add('open', 'show');
-    //Add open card to openCards array
+    // Add open card to openCards array
     openCards.push(e.target);
-    //Log to the console the list of open cards
-    console.log('list of open cards ' + openCards);   // TODO: erase this line after testing is complete
+    // Log to the console the list of open cards for testing purposes
+    console.log('list of open cards ' + openCards);
 
     if (openCards.length % 2 === 0) {
         if (openCards[openCards.length-2].firstChild.classList.contains(openCards[openCards.length-1].firstChild.classList.item(1))) {
-            console.log('the player has a match');    // TODO: erase this line after testing is complete
+            // Log to the console for testing purposes
+            console.log('the player has a match');
             updateMoves();
+
+            // Log to the console for testing purposes
             console.log('moves equals ' + moveCounter);
 
             // Check if the player loses a star
@@ -107,7 +125,7 @@ function playGame(e) {
                 popUpModal();
             }
         } else {
-            // TODO: erase next line after testing is complete
+            // Log to the console for testing purposes
             console.log('no match, call noMatch ' + openCards[openCards.length-2].firstChild.classList + openCards[openCards.length-1].firstChild.classList);
 
             // Wait for the transition to finish
@@ -116,7 +134,11 @@ function playGame(e) {
                 // code to be executed after 400 milliseconds
                 noMatch(openCards[openCards.length-1], openCards[openCards.length-2]);
             }, delayInMilliseconds);
+
+            // Add 1 move to the move counter
             updateMoves();
+
+            // Log to the console for testing purposes
             console.log('moves equals ' + moveCounter);
 
             // Check if the player loses a star
@@ -141,27 +163,33 @@ function noMatch(card1, card2) {
         // code to be executed after 500 milliseconds
         closeCards(card1, card2);
     }, delayInMilliseconds);
-
 }
 
 function closeCards(card1, card2) {
+    // Log to the console for testing purposes
     console.log('inside closeCards');
+
     card1.classList.remove('open', 'show', 'no-match');
     card2.classList.remove('open', 'show', 'no-match');
+
     removeCards(card1, card2);
 }
 
 function removeCards(card1, card2) {
+    // Log to the console for testing purposes
     console.log('inside removeCards');
 
     const pos1 = openCards.indexOf(card1);
+    // Log to the console for testing purposes
     console.log('the position1 is ' + pos1);
     openCards.splice(pos1, 1);
 
     const pos2 = openCards.indexOf(card2);
+    // Log to the console for testing purposes
     console.log('the position2 is ' + pos2);
     openCards.splice(pos2, 1);
 
+    // Log to the console for testing purposes
     console.log('the openCards length is ' + openCards.length);
     unlockCard(card1);
     unlockCard(card2);
@@ -173,15 +201,15 @@ function removeCards(card1, card2) {
 */
 
 function lockCard(card) {
+    // Log to the console for testing purposes
     console.log('inside lockCard');
     card.removeEventListener('click', playGame);
-
 }
 
 function unlockCard(card) {
+    // Log to the console for testing purposes
     console.log('inside unlockCard');
     card.addEventListener('click', playGame);
-
 }
 
 function updateMoves() {
@@ -193,24 +221,28 @@ function updateMoves() {
 function manageStars() {
     switch (moveCounter) {
         case 11:
+            // Log to the console for testing purposes
             console.log('moveCounter is 11, lose first star');
             eraseStar();
             break;
         case 16:
+            // Log to the console for testing purposes
             console.log('moveCounter is 16, lose second star');
             eraseStar();
             break;
         case 21:
+            // Log to the console for testing purposes
             console.log('moveCounter is 21, lose third star');
             eraseStar();
             break;
         default:
+            // Log to the console for testing purposes
             console.log('default');
     }
 }
 
 function eraseStar() {
-    // Get start to be erased
+    // Get star to be erased
     const star = document.getElementById('star'+starCounter);
 
     // Erase star from score panel
@@ -218,8 +250,9 @@ function eraseStar() {
 
     // Lose a star in the counter
     starCounter--;
-    console.log('The STAR COUNTER is ' + starCounter);
 
+    // Log to the console for testing purposes
+    console.log('The STAR COUNTER is ' + starCounter);
 }
 
 /**
@@ -250,7 +283,6 @@ function setGame() {
     reset.addEventListener('click', restartGame);
 
     createDeck();
-
 }
 
 function restartGame() {
@@ -273,23 +305,28 @@ function startTimer() {
     return [timer, timerInt];
 }
 
-// This function receives an interval as parameter
+/**
+* description: Stops timer
+* param: {interval} tmr
+*/
+
 function stopTimer(tmr) {
     window.clearInterval(tmr);
     timerGoing = false;
+    // Log to the console for testing purposes
     console.log('the timer ends');
 }
 
 /**
-* This function receives an object reference to a <span> element
-* that updates with the new value of timerValue
+* description: Adds 1 to the timer and updates the <span> element in
+* the score panel with the new value of the timer.
+* param: {object reference} tmr
 */
 
 function updateTimer(tmr) {
     timerValue++;
     tmr.textContent = timerValue;
 }
-
 
 /**
 * The congratulations modal
@@ -309,6 +346,7 @@ function popUpModal() {
 
     // Get the button that closes the modal
     const modalButton = document.getElementById('modalButton');
+    // Log to the console for testing purposes
     console.log('the BUTTON is ' + modalButton);
 
     // Add event listener to play again button
@@ -317,21 +355,3 @@ function popUpModal() {
       setGame();
     }, false);
 }
-
-/**
-* End of code for the modal
-*/
-
-setGame();
-
-
-/**
-* set up the event listener for a card. If a card is clicked:
-*  - display the card's symbol (put this functionality in another function that you call from this one)
-*  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-*  - if the list already has another card, check to see if the two cards match
-*    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
-*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-*/
