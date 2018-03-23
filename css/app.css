@@ -64,22 +64,20 @@ h1 {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
-    /* transition-property: background-color transform; */
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out;
+    -webkit-transition: background 0.5s ease-in-out, font-size 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+    transition: background 0.5s ease-in-out, font-size 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .rotate-y-minus-180 {
+    -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
 }
 
 .deck .card.open {
-    transform: rotateY(3.142rad);
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
     background: #02b3e4;
     cursor: default;
-    /* transition-property: background-color transform; */
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out;
 }
 
 .deck .card.show {
@@ -88,7 +86,6 @@ h1 {
 
 .deck .card.no-match {
     background: red;
-    transform: rotateY(3.142rad) translate(30px, 20px) rotate(20deg);
 }
 
 .deck .card.match {
@@ -139,7 +136,7 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0); /* Fallback color */
+    /* background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black with opacity */
     justify-content: center;
     align-items: center;
@@ -172,10 +169,16 @@ h1 {
     border: 1px solid #888;
     width: 80%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation: 0.4s animatetop;
     animation: 0.4s animatetop;
 }
 
 /* Animation to Modal*/
+@-webkit-keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
 @keyframes animatetop {
     from {top: -300px; opacity: 0}
     to {top: 0; opacity: 1}
