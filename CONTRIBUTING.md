@@ -1,3 +1,3 @@
 # How to contribute
 
-The files in this repository are used as the starting point for all students. Because we want students to write the majority of the code themselves, pull requests (most likely) will _not_ be merged into the project.
+In order to contribute to this repository, please open an issue with your comments and code changes. I will be happy to go over them and give you a prompt response. Alternatively you can propose a Pull Request.
